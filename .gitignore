@@ -1,1 +1,6 @@
 build
+.vscode
+codeql-custom-queries-cpp
+cppcheck-htmlreport.py
+cppcheck-result.xml
+cppcheck-html
