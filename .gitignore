@@ -4,3 +4,4 @@ codeql-custom-queries-cpp
 cppcheck-htmlreport.py
 cppcheck-result.xml
 cppcheck-html
+fixes.yaml
