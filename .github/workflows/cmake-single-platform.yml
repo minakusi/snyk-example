@@ -41,4 +41,7 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       with:
-        category: "deep-analysis"
+        languages: cpp
+        queries: +security-and-quality
+        query-filters: |
+          include: codeql/cpp-queries#DivideByZero
