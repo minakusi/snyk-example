@@ -30,6 +30,8 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         queries: +security-and-quality
+        query-filters: |
+          include: codeql/cpp-queries#DivideByZero
 
     - name: Build project using CMake
       run: |
@@ -41,7 +43,4 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       with:
-        languages: cpp
-        queries: +security-and-quality
-        query-filters: |
-          include: codeql/cpp-queries#DivideByZero
+        category: "/language:${{ matrix.language }}"
