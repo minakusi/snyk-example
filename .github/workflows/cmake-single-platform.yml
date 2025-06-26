@@ -1,14 +1,14 @@
-name: "CodeQL - Security Extended"
+name: "CodeQL"
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   pull_request:
-    branches: [ "main" ]
+    branches: [main]
 
 jobs:
   analyze:
-    name: Analyze
+    name: Analyze with CodeQL
     runs-on: ubuntu-latest
 
     permissions:
@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'cpp' ]
+        language: [cpp]
 
     steps:
     - name: Checkout repository
@@ -29,15 +29,16 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
-        queries: security-extended  # 이게 핵심!
-    
-    - name: Build project
+        queries: +security-and-quality
+
+    - name: Build project using CMake
       run: |
-        mkdir build && cd build
+        mkdir -p build
+        cd build
         cmake ..
         cmake --build . --config Release
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
       with:
-        category: "/language:${{ matrix.language }}"
+        category: "deep-analysis"
