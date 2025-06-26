@@ -37,3 +37,8 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{env.BUILD_TYPE}}
 
+    - name: Finalyze with CodeQL
+      # You may pin to the exact commit or the version.
+      # uses: codebeltnet/codeql-scan-finalize@867d6eae8144fb849b11576e06fb81b01494075c
+      uses: codebeltnet/codeql-scan-finalize@v1.0.0
+
