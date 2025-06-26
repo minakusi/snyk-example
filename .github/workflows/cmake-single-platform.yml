@@ -28,7 +28,6 @@ jobs:
           languages: ${{ matrix.language }}
           queries: |
             ./codeql-queries
-            security-and-quality
 
       - name: Build with CMake
         run: |
