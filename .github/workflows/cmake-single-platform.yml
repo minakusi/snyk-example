@@ -1,46 +1,49 @@
-name: "CodeQL"
+name: 'CodeQL C++ Deep Security Analysis'
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   analyze:
-    name: Analyze with CodeQL
     runs-on: ubuntu-latest
-
     permissions:
-      actions: read
       contents: read
+      actions: read
       security-events: write
 
     strategy:
       fail-fast: false
       matrix:
-        language: [cpp]
+        language: [ cpp ]
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        languages: ${{ matrix.language }}
-        queries: +security-and-quality
-        query-filters: |
-          include: codeql/cpp-queries#DivideByZero
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          queries: |
+            ./codeql-queries
+            security-and-quality
 
-    - name: Build project using CMake
-      run: |
-        mkdir -p build
-        cd build
-        cmake ..
-        cmake --build . --config Release
+      - name: Build with CMake
+        run: |
+          mkdir -p build
+          cd build
+          cmake ..
+          cmake --build . --config Release
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
-      with:
-        category: "/language:${{ matrix.language }}"
+      - name: Run CodeQL analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
+          output: cpp-security-analysis.sarif
+
+      - name: Upload SARIF results 📊
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: cpp-security-analysis.sarif
