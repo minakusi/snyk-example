@@ -26,8 +26,7 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
-          queries: |
-            ./codeql-queries
+          packs: my-custom-queries
 
       - name: Build with CMake
         run: |
